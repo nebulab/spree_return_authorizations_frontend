@@ -1,0 +1,3 @@
+<% if @order.shipments.any? &:shipped? %>
+  <%= link_to Spree.t(:create_returns), new_order_return_authorization_path(@order), class: 'button' %>
+<% end %>
