@@ -1,7 +1,7 @@
 SpreeReturnAuthorizationsFrontend
 =================================
 
-Introduction goes here.
+This extension adds a frontend interface to allow user to ask for items returns.
 
 Installation
 ------------
@@ -36,4 +36,4 @@ Simply add this require statement to your spec_helper:
 require 'spree_return_authorizations_frontend/factories'
 ```
 
-Copyright (c) 2015 [name of extension creator], released under the New BSD License
+Copyright (c) 2015 [Nebulab], released under the New BSD License
