@@ -9,7 +9,7 @@ module Spree
       end
 
       def create
-        @return_authorization = Spree::ReturnAuthorization.create!(return_authorization_params)
+        @return_authorization = Spree::ReturnAuthorization.new(return_authorization_params)
         if @return_authorization.save
           flash.notice = Spree.t('return_authorizations_frontend.created')
           redirect_to account_path
