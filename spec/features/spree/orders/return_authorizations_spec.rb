@@ -2,10 +2,26 @@ require 'spec_helper'
 
 describe 'orders/return_authorizations', type: :feature do
   let(:user)  { create(:user) }
+  let(:reason)  { create(:return_authorization_reason) }
   let(:order) { create(:shipped_order, user: user) }
 
-  it 'can visit an order returns page' do
-    expect { visit spree.new_order_return_authorization_path(order) }.not_to raise_error
+  before do
+    reason
+    order
+  end
+
+  context 'create return' do
+    before do
+      expect { visit spree.new_order_return_authorization_path(order) }.not_to raise_error
+    end
+
+    it 'works' do
+      expect {
+        find('#return_authorization_return_authorization_reason_id').find(:xpath, 'option[2]').select_option
+        fill_in 'return_authorization[memo]', with: 'blablabla'
+        click_button 'Create'
+      }.to change(Spree::ReturnAuthorization, :count).by(1)
+    end
   end
 
   context 'line items table' do

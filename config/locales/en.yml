@@ -3,4 +3,6 @@
 
 en:
   spree:
-    create_returns: 'Create Returns'
+    return_authorizations_frontend:
+      create_returns: 'Create Returns'
+      created: 'Return request created.'

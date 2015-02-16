@@ -9,11 +9,15 @@ module Spree
       end
 
       def create
-        @return_authorization = Spree::ReturnAuthorization.new(return_authorization_params)
-        unless @return_authorization.save
+        @return_authorization = Spree::ReturnAuthorization.create!(return_authorization_params)
+        if @return_authorization.save
+          flash.notice = Spree.t('return_authorizations_frontend.created')
+          redirect_to account_path
+        else
           load_form_data
           render :new
         end
+
       end
 
       private
@@ -26,7 +30,7 @@ module Spree
         params
           .require(:return_authorization)
           .permit(:memo, :inventory_units_attributes, :return_authorization_reason_id)
-          .merge(order: @order)
+          .merge(order: @order, stock_location: Spree::StockLocation.first)
       end
 
       # This logic is basically copied/pasted from backend:

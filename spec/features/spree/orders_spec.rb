@@ -8,7 +8,7 @@ describe 'Order show', type: :feature do
   context 'when order is not yet shipped' do
     it 'has no link to return items' do
       visit spree.order_path(order)
-      expect(page).to_not have_link Spree.t(:create_returns)
+      expect(page).to_not have_link Spree.t("return_authorizations_frontend.create_returns")
     end
   end
 
@@ -23,7 +23,7 @@ describe 'Order show', type: :feature do
 
     it 'has a link to return items' do
       visit spree.order_path(order)
-      expect(page).to have_link Spree.t(:create_returns)
+      expect(page).to have_link Spree.t("return_authorizations_frontend.create_returns")
     end
   end
 end
