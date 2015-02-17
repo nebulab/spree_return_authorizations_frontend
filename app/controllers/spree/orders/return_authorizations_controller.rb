@@ -29,7 +29,7 @@ module Spree
       def return_authorization_params
         params
           .require(:return_authorization)
-          .permit(:memo, :inventory_units_attributes, :return_authorization_reason_id)
+          .permit(:memo, {return_items_attributes: [:inventory_unit_id, :_destroy]}, :inventory_units_attributes, :return_authorization_reason_id)
           .merge(order: @order, stock_location: Spree::StockLocation.first)
       end
 
