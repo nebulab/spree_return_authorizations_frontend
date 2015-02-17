@@ -11,16 +11,15 @@ describe 'orders/return_authorizations', type: :feature do
   end
 
   context 'create return' do
-    before do
-      expect { visit spree.new_order_return_authorization_path(order) }.not_to raise_error
+    it 'creates return authorization' do
+      expect {
+        create_return_authorization_for(order)
+      }.to change(Spree::ReturnAuthorization, :count).by(1)
     end
 
-    it 'works' do
-      expect {
-        find('#return_authorization_return_authorization_reason_id').find(:xpath, 'option[2]').select_option
-        fill_in 'return_authorization[memo]', with: 'blablabla'
-        click_button 'Create'
-      }.to change(Spree::ReturnAuthorization, :count).by(1)
+    it 'has pending state' do
+      create_return_authorization_for(order)
+      expect(Spree::ReturnAuthorization.last.state).to eq('pending')
     end
   end
 
