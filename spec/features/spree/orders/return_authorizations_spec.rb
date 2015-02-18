@@ -11,15 +11,29 @@ describe 'orders/return_authorizations', type: :feature do
   end
 
   context 'create return' do
-    it 'creates return authorization' do
-      expect {
+    context 'with valid params' do
+      it 'creates return authorization' do
+        expect {
+          create_return_authorization_for(order)
+        }.to change(Spree::ReturnAuthorization, :count).by(1)
+      end
+
+      it 'has pending state' do
         create_return_authorization_for(order)
-      }.to change(Spree::ReturnAuthorization, :count).by(1)
+        expect(Spree::ReturnAuthorization.last.state).to eq('pending')
+      end
     end
 
-    it 'has pending state' do
-      create_return_authorization_for(order)
-      expect(Spree::ReturnAuthorization.last.state).to eq('pending')
+    context 'with invalid params' do
+      before do
+        allow_any_instance_of(Spree::ReturnAuthorization).to receive(:valid?).and_return(false)
+      end
+
+      it 'does not create return authorization' do
+        expect {
+          create_return_authorization_for(order)
+        }.to_not change(Spree::ReturnAuthorization, :count)
+      end
     end
   end
 

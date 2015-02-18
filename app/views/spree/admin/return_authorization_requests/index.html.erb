@@ -1,0 +1,33 @@
+<% content_for :page_title do %>
+  <%= Spree.t(:return_authorizations) %>
+<% end %>
+
+<% if @return_authorizations.any? %>
+<table class="index" id='return_authorizations_requests' data-hook>
+  <thead>
+    <tr data-hook="listing_properties_header">
+      <th><%= Spree.t(:rma_number) %></th>
+      <th><%= Spree.t(:order) %></th>
+      <th><%= "#{Spree.t('date')}/#{Spree.t('time')}" %></th>
+      <th class="actions"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @return_authorizations.each do |return_authorization| %>
+      <tr id="<%= spree_dom_id return_authorization %>" data-hook="listing_properties_row" class="<%= cycle('odd', 'even')%>">
+        <td><%= return_authorization.number %></td>
+        <td><%= return_authorization.order.number %></td>
+        <td><%= pretty_time(return_authorization.created_at) %></td>
+        <td class="actions">
+          <%= link_to_edit(return_authorization, url: edit_admin_order_return_authorization_path(return_authorization.order, return_authorization), :no_text => true) %>
+          <%= link_to_delete(return_authorization, url: admin_order_return_authorization_path(return_authorization.order, return_authorization), :no_text => true) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+  <div class="alpha twelve columns no-objects-found">
+    <%= Spree.t(:no_resource_found, resource: I18n.t(:other, scope: 'activerecord.models.spree/return_authorization')) %>,
+  </div>
+<% end %>
