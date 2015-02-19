@@ -1,11 +1,12 @@
 require 'spec_helper'
 
-describe 'orders/return_authorizations', type: :feature do
+describe 'orders/return_authorizations' do
   let(:user)  { create(:user) }
   let(:reason)  { create(:return_authorization_reason) }
   let(:order) { create(:shipped_order, user: user) }
 
   before do
+    sign_in_as!(user)
     reason
     order
   end

@@ -17,13 +17,13 @@ module Spree
           load_form_data
           render :new
         end
-
       end
 
       private
 
       def load_order
         @order = Spree::Order.where(number: params[:order_id]).first
+        authorize! :read, @order
       end
 
       def return_authorization_params
