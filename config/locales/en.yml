@@ -4,5 +4,5 @@
 en:
   spree:
     return_authorizations_frontend:
-      create_returns: 'Create Returns'
+      create_returns: 'Return or replace items'
       created: 'Return request created.'
