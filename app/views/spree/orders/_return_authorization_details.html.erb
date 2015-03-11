@@ -1,42 +1,44 @@
-<hr />
-<h2>Return requests</h2>
-<table id='return-line-items' class="table" data-hook="return_order_details">
-  <col width="15%" valign="middle" halign="center">
-  <col width="70%" valign="middle">
-  <col width="5%" valign="middle" halign="center">
-  <col width="5%" valign="middle" halign="center">
-  <col width="5%" valign="middle" halign="center">
+<% if order.shipments.any?(&:shipped?) && order.user.present? %>
+  <hr />
+  <h2>Return requests</h2>
+  <table id='return-line-items' class="table" data-hook="return_order_details">
+    <col width="15%" valign="middle" halign="center">
+    <col width="70%" valign="middle">
+    <col width="5%" valign="middle" halign="center">
+    <col width="5%" valign="middle" halign="center">
+    <col width="5%" valign="middle" halign="center">
 
-  <thead data-hook>
-    <tr class="active" data-hook="return_order_details_line_items_headers">
-      <th colspan="2"><%= Spree.t(:item) %></th>
-      <th colspan="3"><%= Spree.t(:status) %></th>
-    </tr>
-  </thead>
+    <thead data-hook>
+      <tr class="active" data-hook="return_order_details_line_items_headers">
+        <th colspan="2"><%= Spree.t(:item) %></th>
+        <th colspan="3"><%= Spree.t(:status) %></th>
+      </tr>
+    </thead>
 
-  <tbody data-hook>
-    <% order.return_authorizations.each do |ra| %>
-      <% ra.return_items.each do |return_item| %>
-        <% item = return_item.inventory_unit.variant %>
-        <tr data-hook="order_details_line_item_row">
-          <td data-hook="order_item_image">
-            <% if item.images.length == 0 %>
-              <%= link_to small_image(item.product), item.variant.product %>
-            <% else %>
-              <%= link_to image_tag(item.images.first.attachment.url(:small)), item.product %>
-            <% end %>
-          </td>
-          <td data-hook="order_item_description">
-            <h4><%= item.product.name %></h4>
-            <%= truncated_product_description(item.product) %>
-            <%= "(" + item.options_text + ")" unless item.option_values.empty? %>
-          </td>
-          <td data-hook="order_item_state" class="lead text-primary state"><span><%= ra.state %></span></td>
-        </tr>
+    <tbody data-hook>
+      <% order.return_authorizations.each do |ra| %>
+        <% ra.return_items.each do |return_item| %>
+          <% item = return_item.inventory_unit.variant %>
+          <tr data-hook="order_details_line_item_row">
+            <td data-hook="order_item_image">
+              <% if item.images.length == 0 %>
+                <%= link_to small_image(item.product), item.variant.product %>
+              <% else %>
+                <%= link_to image_tag(item.images.first.attachment.url(:small)), item.product %>
+              <% end %>
+            </td>
+            <td data-hook="order_item_description">
+              <h4><%= item.product.name %></h4>
+              <%= truncated_product_description(item.product) %>
+              <%= "(" + item.options_text + ")" unless item.option_values.empty? %>
+            </td>
+            <td data-hook="order_item_state" class="lead text-primary state"><span><%= ra.state %></span></td>
+          </tr>
+        <% end %>
       <% end %>
-    <% end %>
 
 
-  </tbody>
+    </tbody>
 
-</table>
+  </table>
+<% end %>
