@@ -1,3 +1,3 @@
 <% if @order.shipments.any?(&:shipped?) && @order.user.present? %>
-  <%= link_to Spree.t("return_authorizations_frontend.create_returns"), new_order_return_authorization_path(@order), class: 'button' %>
+  <%= link_to Spree.t("return_authorizations_frontend.create_returns"), spree.new_order_return_authorization_path(@order) %>
 <% end %>
