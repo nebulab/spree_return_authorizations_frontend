@@ -16,7 +16,6 @@ Bundle your dependencies and run the installation generator:
 
 ```shell
 bundle
-bundle exec rails g spree_return_authorizations_frontend:install
 ```
 
 Testing
