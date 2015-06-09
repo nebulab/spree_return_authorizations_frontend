@@ -1,6 +1,11 @@
 module Spree
   module Orders
     class ReturnAuthorizationsController < Spree::StoreController
+      include Spree::Core::ControllerHelpers::Store
+      include Spree::Core::ControllerHelpers::Auth
+      helper Spree::BaseHelper
+      helper Spree::StoreHelper
+
       before_filter :load_order
 
       def new
@@ -12,7 +17,7 @@ module Spree
         @return_authorization = Spree::ReturnAuthorization.new(return_authorization_params)
         if @return_authorization.save
           flash.notice = Spree.t('return_authorizations_frontend.created')
-          redirect_to account_path
+          redirect_to main_app.account_path
         else
           load_form_data
           render :new
