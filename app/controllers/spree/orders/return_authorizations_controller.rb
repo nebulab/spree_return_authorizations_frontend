@@ -7,6 +7,7 @@ module Spree
       helper Spree::StoreHelper
 
       before_filter :load_order
+      before_filter :check_return_eligibility, only: [:new, :create]
 
       def new
         @return_authorization = Spree::ReturnAuthorization.new(order: @order)
@@ -17,7 +18,7 @@ module Spree
         @return_authorization = Spree::ReturnAuthorization.new(return_authorization_params)
         if @return_authorization.save
           flash.notice = Spree.t('return_authorizations_frontend.created')
-          redirect_to main_app.account_path
+          redirect_to spree.account_path
         else
           load_form_data
           render :new
@@ -29,6 +30,13 @@ module Spree
       def load_order
         @order = Spree::Order.where(number: params[:order_id]).first
         authorize! :read, @order
+      end
+
+      def check_return_eligibility
+        unless @order.eligible_for_return_authorization?
+          flash.alert = Spree.t('return_authorizations_frontend.not_eligibile')
+          redirect_to spree.account_path
+        end
       end
 
       def return_authorization_params

@@ -8,7 +8,7 @@ describe 'orders/return_authorizations' do
   before do
     sign_in_as!(user)
     reason
-    order
+    order.shipments.each {|s| s.update_attribute(:shipped_at, 2.days.ago) }
   end
 
   context 'create return' do

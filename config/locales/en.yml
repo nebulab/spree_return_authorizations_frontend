@@ -6,3 +6,4 @@ en:
     return_authorizations_frontend:
       create_returns: 'Return or replace items'
       created: 'Return request created.'
+      not_eligibile: 'This order is not eligibile for return.'

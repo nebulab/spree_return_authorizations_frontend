@@ -14,17 +14,28 @@ describe 'Order show', type: :feature do
     end
 
     context 'when order has been shipped' do
-      before do
-        order.shipments.each do |shipment|
-          shipment.inventory_units.update_all state: 'shipped'
-          shipment.update_column('state', 'shipped')
+      let(:order) { create(:shipped_order, user: user) }
+
+      context 'when shipment happened after the deadline' do
+        before do
+          order.shipments.each {|s| s.update_attribute(:shipped_at, 2.days.ago) }
         end
-        order.reload
+
+        it 'has a link to return items' do
+          visit spree.order_path(order)
+          expect(page).to have_link Spree.t("return_authorizations_frontend.create_returns")
+        end
       end
 
-      it 'has a link to return items' do
-        visit spree.order_path(order)
-        expect(page).to have_link Spree.t("return_authorizations_frontend.create_returns")
+      context 'when shipment happened before the deadline' do
+        before do
+          order.shipments.each {|s| s.update_attribute(:shipped_at, 32.days.ago) }
+        end
+
+        it 'has no link to return items' do
+          visit spree.order_path(order)
+          expect(page).to_not have_link Spree.t("return_authorizations_frontend.create_returns")
+        end
       end
     end
   end
