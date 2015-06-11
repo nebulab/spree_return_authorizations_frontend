@@ -11,7 +11,7 @@ module SpreeReturnAuthorizationsFrontend
       g.test_framework :rspec
     end
 
-    initializer "spree.spree_digital.preferences", :after => "spree.environment" do |app|
+    initializer "spree.spree_return_authorizations_frontend.preferences", :after => "spree.environment" do |app|
       Spree::ReturnAuthorizationsFrontendConfiguration = Spree::SpreeReturnAuthorizationsFrontendConfiguration.new
     end
 
