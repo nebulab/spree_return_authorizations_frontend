@@ -1,5 +1,5 @@
 Spree::ReturnAuthorization.class_eval do
-  StateMachine::Machine.ignore_method_conflicts = true
+  StateMachines::Machine.ignore_method_conflicts = true
   state_machines.clear
 
   state_machine initial: :pending do
